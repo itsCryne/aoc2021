@@ -18,8 +18,8 @@
 
 mod days;
 use days::{day_01, day_02};
-use std::fs::read_to_string;
 use std::time::Instant;
+use crate::days::util::get_puzzle_input;
 
 fn fmt_time(ms: f64) -> String {
     if ms <= 1.0 {
@@ -45,8 +45,9 @@ fn fmt_time(ms: f64) -> String {
     return format!("{}m ", min.floor()) + &fmt_time((sec % 60.0) * 1000.0);
 }
 
-fn main() {
-    let one_input = read_to_string("src/inputs/input_01.txt").expect("Konnte Eingabe für Tag 1 nicht lesen");
+#[tokio::main]
+async fn main() {
+    let one_input = get_puzzle_input(1).await;
 
     let one_a_start_time = Instant::now();
     let one_a_result = day_01::a(&one_input);
@@ -59,7 +60,7 @@ fn main() {
     println!("Day 1:\n A: {} in {}\n B: {} in {}", one_a_result, fmt_time(one_a_end_time), one_b_result, fmt_time(one_b_end_time));
 
     
-    let two_input = read_to_string("src/inputs/input_02.txt").expect("Konnte Eingabe für Tag 1 nicht lesen");
+    let two_input = get_puzzle_input(2).await;
 
     let two_a_start_time = Instant::now();
     let two_a_result = day_02::a(&two_input);
