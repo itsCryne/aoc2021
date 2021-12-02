@@ -17,7 +17,7 @@
  */
 
 mod days;
-use days::{day_01};
+use days::{day_01, day_02};
 use std::fs::read_to_string;
 use std::time::Instant;
 
@@ -57,4 +57,17 @@ fn main() {
     let one_b_end_time = one_b_start_time.elapsed().as_secs_f64() * 1000.0;
 
     println!("Day 1:\n A: {} in {}\n B: {} in {}", one_a_result, fmt_time(one_a_end_time), one_b_result, fmt_time(one_b_end_time));
+
+    
+    let two_input = read_to_string("src/inputs/input_02.txt").expect("Konnte Eingabe für Tag 1 nicht lesen");
+
+    let two_a_start_time = Instant::now();
+    let two_a_result = day_02::a(&two_input);
+    let two_a_end_time = two_a_start_time.elapsed().as_secs_f64() * 1000.0;
+
+    let two_b_start_time = Instant::now();
+    let two_b_result = day_02::b(&two_input);
+    let two_b_end_time = two_b_start_time.elapsed().as_secs_f64() * 1000.0;
+
+    println!("Day 2:\n A: {} in {}\n B: {} in {}", two_a_result, fmt_time(two_a_end_time), two_b_result, fmt_time(two_b_end_time));
 }
