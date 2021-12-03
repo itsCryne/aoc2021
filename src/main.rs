@@ -50,6 +50,7 @@ async fn main() {
     let day_vec = vec![
         [day_01::a, day_01::b],
         [day_02::a, day_02::b],
+        [day_03::a, day_03::b]
     ];
 
     let mut cum_time: f64 = 0.0;
