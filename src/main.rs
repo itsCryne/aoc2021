@@ -17,9 +17,11 @@
  */
 
 mod days;
+mod util;
+
 use days::*;
 use std::time::Instant;
-use crate::days::util::get_puzzle_input;
+use util::get_puzzle_input;
 
 fn fmt_time(ms: f64) -> String {
     if ms <= 1.0 {
