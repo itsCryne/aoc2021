@@ -19,6 +19,7 @@
 mod days;
 mod util;
 
+use std::env;
 use days::*;
 use std::time::Instant;
 use util::get_puzzle_input;
@@ -48,23 +49,39 @@ async fn main() {
         [day_03::a, day_03::b]
     ];
 
+    let args: Vec<String> = env::args().collect();
+    let mut runs = 1;
+    if args.len() > 1 {
+        runs = args[1].parse().unwrap();
+        println!("\n{} runs scheduled", runs);
+    }
+
+
     let mut cum_time: u128 = 0;
 
     for (day, tasks) in day_vec.iter().enumerate() {
-        let input = get_puzzle_input((day+1) as i8).await;
-        let a_start_time = Instant::now();
+        let input = get_puzzle_input((day + 1) as i8).await;
         let a_result = tasks[0](&input);
-        let a_end_time = a_start_time.elapsed().as_nanos();
-
-        let b_start_time = Instant::now();
         let b_result = tasks[1](&input);
-        let b_end_time = b_start_time.elapsed().as_nanos();
 
-        cum_time += a_end_time + b_end_time;
+        let mut a_cum_time = 0;
+        let mut b_cum_time = 0;
 
-        println!("Day {:02}:\n A: {} in {}\n B: {} in {}", day+1,  a_result, fmt_time(a_end_time), b_result, fmt_time(b_end_time));
+        for _ in 0..runs {
+            let a_start_time = Instant::now();
+            tasks[0](&input);
+            a_cum_time += a_start_time.elapsed().as_nanos();
+
+            let b_start_time = Instant::now();
+            tasks[1](&input);
+            b_cum_time += b_start_time.elapsed().as_nanos();
+        }
+
+        cum_time += a_cum_time + b_cum_time;
+
+        println!("Day {:02}:\n A: {} in {}\n B: {} in {}", day+1,  a_result, fmt_time(a_cum_time/runs), b_result, fmt_time(b_cum_time/runs));
     }
 
     println!("----------");
-    println!("Cumulative time: {}", fmt_time(cum_time));
+    println!("Cumulative time: {}", fmt_time(cum_time/runs));
 }
