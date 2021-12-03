@@ -17,7 +17,7 @@
  */
 
 mod days;
-use days::{day_01, day_02};
+use days::*;
 use std::time::Instant;
 use crate::days::util::get_puzzle_input;
 
@@ -47,28 +47,28 @@ fn fmt_time(ms: f64) -> String {
 
 #[tokio::main]
 async fn main() {
-    let one_input = get_puzzle_input(1).await;
+    let day_vec = vec![
+        [day_01::a, day_01::b],
+        [day_02::a, day_02::b],
+    ];
 
-    let one_a_start_time = Instant::now();
-    let one_a_result = day_01::a(&one_input);
-    let one_a_end_time = one_a_start_time.elapsed().as_secs_f64() * 1000.0;
+    let mut cum_time: f64 = 0.0;
 
-    let one_b_start_time = Instant::now();
-    let one_b_result = day_01::b(&one_input);
-    let one_b_end_time = one_b_start_time.elapsed().as_secs_f64() * 1000.0;
+    for (day, tasks) in day_vec.iter().enumerate() {
+        let input = get_puzzle_input((day+1) as i8).await;
+        let a_start_time = Instant::now();
+        let a_result = tasks[0](&input);
+        let a_end_time = a_start_time.elapsed().as_secs_f64() * 1000.0;
 
-    println!("Day 1:\n A: {} in {}\n B: {} in {}", one_a_result, fmt_time(one_a_end_time), one_b_result, fmt_time(one_b_end_time));
+        let b_start_time = Instant::now();
+        let b_result = tasks[1](&input);
+        let b_end_time = b_start_time.elapsed().as_secs_f64() * 1000.0;
 
-    
-    let two_input = get_puzzle_input(2).await;
+        cum_time += a_end_time + b_end_time;
 
-    let two_a_start_time = Instant::now();
-    let two_a_result = day_02::a(&two_input);
-    let two_a_end_time = two_a_start_time.elapsed().as_secs_f64() * 1000.0;
+        println!("Day {:02}:\n A: {} in {}\n B: {} in {}", day+1,  a_result, fmt_time(a_end_time), b_result, fmt_time(b_end_time));
+    }
 
-    let two_b_start_time = Instant::now();
-    let two_b_result = day_02::b(&two_input);
-    let two_b_end_time = two_b_start_time.elapsed().as_secs_f64() * 1000.0;
-
-    println!("Day 2:\n A: {} in {}\n B: {} in {}", two_a_result, fmt_time(two_a_end_time), two_b_result, fmt_time(two_b_end_time));
+    println!("----------");
+    println!("Cumulative time: {}", fmt_time(cum_time));
 }
