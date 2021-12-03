@@ -23,28 +23,21 @@ use days::*;
 use std::time::Instant;
 use util::get_puzzle_input;
 
-fn fmt_time(ms: f64) -> String {
-    if ms <= 1.0 {
-        let micro_sec = ms * 1000.0;
-        return String::from(format!("{}µs", micro_sec.round()));
+fn fmt_time(ns: u128) -> String {
+    let s = ns / 1_000_000_000;
+    let ms = ns / 1_000_000 - s * 1_000;
+    let mu_s = ns / 1_000 - ms * 1_000;
+    let parsed_ns = ns - mu_s * 1_000 - ms * 1_000_000 - s * 1_000_000_000;
+
+    let mut output = format!("{}s {}ms {}µs {}ns", s, ms, mu_s, parsed_ns);
+    for char in output.clone().chars() {
+        if char == '0' || char == ' ' || char.is_alphabetic() {
+            output.remove(0);
+        } else {
+            break;
+        }
     }
-
-    if ms < 1000.0 {
-        let whole_ms = ms.floor();
-        let rem_ms = ms - whole_ms;
-        return String::from(format!("{}ms ", whole_ms) + &fmt_time(rem_ms));
-    }
-
-    let sec: f64 = ms / 1000.0;
-    if sec < 60.0 {
-        let whole_sec = sec.floor();
-        let rem_ms = ms - whole_sec * 1000.0;
-
-        return format!("{}s ", whole_sec) + &fmt_time(rem_ms);
-    }
-
-    let min: f64 = sec / 60.0;
-    return format!("{}m ", min.floor()) + &fmt_time((sec % 60.0) * 1000.0);
+    output
 }
 
 #[tokio::main]
@@ -55,17 +48,17 @@ async fn main() {
         [day_03::a, day_03::b]
     ];
 
-    let mut cum_time: f64 = 0.0;
+    let mut cum_time: u128 = 0;
 
     for (day, tasks) in day_vec.iter().enumerate() {
         let input = get_puzzle_input((day+1) as i8).await;
         let a_start_time = Instant::now();
         let a_result = tasks[0](&input);
-        let a_end_time = a_start_time.elapsed().as_secs_f64() * 1000.0;
+        let a_end_time = a_start_time.elapsed().as_nanos();
 
         let b_start_time = Instant::now();
         let b_result = tasks[1](&input);
-        let b_end_time = b_start_time.elapsed().as_secs_f64() * 1000.0;
+        let b_end_time = b_start_time.elapsed().as_nanos();
 
         cum_time += a_end_time + b_end_time;
 
