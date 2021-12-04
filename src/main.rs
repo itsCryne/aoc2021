@@ -41,8 +41,7 @@ fn fmt_time(ns: u128) -> String {
     output
 }
 
-#[tokio::main]
-async fn main() {
+fn main() {
     let day_vec = vec![
         [day_01::a, day_01::b],
         [day_02::a, day_02::b],
@@ -60,7 +59,7 @@ async fn main() {
     let mut cum_time: u128 = 0;
 
     for (day, tasks) in day_vec.iter().enumerate() {
-        let input = get_puzzle_input((day + 1) as i8).await;
+        let input = get_puzzle_input((day + 1) as i8);
         let a_result = tasks[0](&input);
         let b_result = tasks[1](&input);
 
