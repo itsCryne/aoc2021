@@ -67,7 +67,7 @@ pub(crate) fn a(input: &str) -> u32 {
         })
     }
 
-    let mut field = vec![vec![0_u32; height]; width];
+    let mut field = vec![vec![0_u8; height]; width];
     let therm_lines: Vec<Line> = therm_lines.into_iter().filter(|line| line.is_straight()).collect();
 
     for therm_line in therm_lines {
@@ -77,7 +77,7 @@ pub(crate) fn a(input: &str) -> u32 {
         }
     }
 
-    let mut dangerous_spot_count = 0;
+    let mut dangerous_spot_count: u16 = 0;
     for (_, y_row) in field.iter().enumerate() {
         for (_, val) in y_row.iter().enumerate() {
             if val > &1 {
@@ -86,7 +86,7 @@ pub(crate) fn a(input: &str) -> u32 {
         }
     }
 
-    dangerous_spot_count
+    dangerous_spot_count as u32
 }
 
 pub(crate) fn b(input: &str) -> u32 {
@@ -116,7 +116,7 @@ pub(crate) fn b(input: &str) -> u32 {
         })
     }
 
-    let mut field = vec![vec![0_u32; height]; width];
+    let mut field = vec![vec![0_u8; height]; width];
     //let therm_lines: Vec<Line> = therm_lines.into_iter().filter(|line| line.is_straight()).collect();
 
     for therm_line in therm_lines {
@@ -126,7 +126,7 @@ pub(crate) fn b(input: &str) -> u32 {
         }
     }
 
-    let mut dangerous_spot_count = 0;
+    let mut dangerous_spot_count: u16 = 0;
     for (_, y_row) in field.iter().enumerate() {
         for (_, val) in y_row.iter().enumerate() {
             if val > &1 {
@@ -135,5 +135,5 @@ pub(crate) fn b(input: &str) -> u32 {
         }
     }
 
-    dangerous_spot_count
+    dangerous_spot_count as u32
 }
