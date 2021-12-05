@@ -1,5 +1,5 @@
-pub(crate) fn a(input: &str) -> i64 {
-    let lines = input.lines().map(|line| line.parse::<i64>().unwrap()).collect::<Vec<i64>>();
+pub(crate) fn a(input: &str) -> u32 {
+    let lines = input.lines().map(|line| line.parse::<u32>().unwrap()).collect::<Vec<u32>>();
 
     let mut increase_counter = 0;
     for index in 1..lines.len() {
@@ -9,8 +9,8 @@ pub(crate) fn a(input: &str) -> i64 {
     }
     return increase_counter;
 }
-pub(crate) fn b(input: &str) -> i64 {
-    let lines = input.lines().map(|line| line.parse::<i64>().unwrap()).collect::<Vec<i64>>();
+pub(crate) fn b(input: &str) -> u32 {
+    let lines = input.lines().map(|line| line.parse::<u32>().unwrap()).collect::<Vec<u32>>();
 
     let mut increase_counter = 0;
     for index in 3..lines.len() {

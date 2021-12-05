@@ -1,8 +1,8 @@
 struct Line {
-    x1: i64,
-    y1: i64,
-    x2: i64,
-    y2: i64
+    x1: u32,
+    y1: u32,
+    x2: u32,
+    y2: u32
 }
 
 impl Line {
@@ -11,53 +11,36 @@ impl Line {
     }
 
     fn get_points_of_line(&self) -> Vec<[usize; 2]> {
-        let mut points = Vec::new();
         if self.is_straight() {
             if self.x1 == self.x2 {
                 if self.y2 > self.y1 {
-                    for y in self.y1..=self.y2 {
-                        points.push([self.x1 as usize, y as usize]);
-                    }
+                    return (self.y1..=self.y2).map(|y| [self.x1 as usize, y as usize]).collect();
                 } else {
-                    for y in self.y2..=self.y1 {
-                        points.push([self.x1 as usize, y as usize]);
-                    }
+                    return (self.y2..=self.y1).map(|y| [self.x1 as usize, y as usize]).collect();
                 }
             } else {
                 if self.x2 > self.x1 {
-                    for x in self.x1..=self.x2 {
-                        points.push([x as usize, self.y1 as usize]);
-                    }
+                    return (self.x1..=self.x2).map(|x| [x as usize, self.y1 as usize]).collect();
                 } else {
-                    for x in self.x2..=self.x1 {
-                        points.push([x as usize, self.y1 as usize]);
-                    }
+                    return (self.x2..=self.x1).map(|x| [x as usize, self.y1 as usize]).collect();
                 }
             }
         } else {
             if self.x2 >= self.x1 && self.y2 >= self.y1 {
-                for point in (self.x1..=self.x2).zip(self.y1..=self.y2) {
-                    points.push([point.0 as usize, point.1 as usize])
-                }
+                return (self.x1..=self.x2).zip(self.y1..=self.y2).map(| point| [point.0 as usize, point.1 as usize]).collect();
             } else if self.x2 < self.x1 && self.y2 > self.y1 {
-                for point in ((self.x2..=self.x1).rev()).zip(self.y1..=self.y2) {
-                    points.push([point.0 as usize, point.1 as usize])
-                }
+                return ((self.x2..=self.x1).rev()).zip(self.y1..=self.y2).map(|point| [point.0 as usize, point.1 as usize]).collect();
             } else if self.x2 > self.x1 && self.y2 < self.y1 {
-                for point in (self.x1..=self.x2).zip((self.y2..=self.y1).rev()) {
-                    points.push([point.0 as usize, point.1 as usize])
-                }
+                return (self.x1..=self.x2).zip((self.y2..=self.y1).rev()).map(|point| [point.0 as usize, point.1 as usize]).collect();
             } else if self.x2 < self.x1 && self.y2 < self.y1 {
-                for point in ((self.x2..=self.x1).rev()).zip((self.y2..=self.y1).rev()) {
-                    points.push([point.0 as usize, point.1 as usize])
-                }
+                return ((self.x2..=self.x1).rev()).zip((self.y2..=self.y1).rev()).map(|point| [point.0 as usize, point.1 as usize]).collect();
             }
+            unreachable!();
         }
-        points
     }
 }
 
-pub(crate) fn a(input: &str) -> i64 {
+pub(crate) fn a(input: &str) -> u32 {
     let lines: Vec<&str> = input.lines().collect();
     let width = 1_000;
     let height = 1_000;
@@ -84,7 +67,7 @@ pub(crate) fn a(input: &str) -> i64 {
         })
     }
 
-    let mut field = vec![vec![0_i64; height]; width];
+    let mut field = vec![vec![0_u32; height]; width];
     let therm_lines: Vec<Line> = therm_lines.into_iter().filter(|line| line.is_straight()).collect();
 
     for therm_line in therm_lines {
@@ -106,7 +89,7 @@ pub(crate) fn a(input: &str) -> i64 {
     dangerous_spot_count
 }
 
-pub(crate) fn b(input: &str) -> i64 {
+pub(crate) fn b(input: &str) -> u32 {
     let lines: Vec<&str> = input.lines().collect();
     let width = 1_000;
     let height = 1_000;
@@ -133,7 +116,7 @@ pub(crate) fn b(input: &str) -> i64 {
         })
     }
 
-    let mut field = vec![vec![0_i64; height]; width];
+    let mut field = vec![vec![0_u32; height]; width];
     //let therm_lines: Vec<Line> = therm_lines.into_iter().filter(|line| line.is_straight()).collect();
 
     for therm_line in therm_lines {
