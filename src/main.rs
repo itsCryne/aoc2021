@@ -27,10 +27,10 @@ use util::get_puzzle_input;
 fn fmt_time(ns: u128) -> String {
     let s = ns / 1_000_000_000;
     let ms = ns / 1_000_000 - s * 1_000;
-    let mu_s = ns / 1_000 - ms * 1_000;
+    let mu_s = ns / 1_000 - ms * 1_000 - s * 1_000_000;
     let parsed_ns = ns - mu_s * 1_000 - ms * 1_000_000 - s * 1_000_000_000;
 
-    let mut output = format!("{}s {}ms {}µs {}ns", s, ms, mu_s, parsed_ns);
+    let mut output = format!("{}s {}ms {}µs {}ns ({}ns)", s, ms, mu_s, parsed_ns, ns);
     for char in output.clone().chars() {
         if char == '0' || char == ' ' || char.is_alphabetic() {
             output.remove(0);
