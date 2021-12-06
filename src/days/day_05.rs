@@ -1,8 +1,8 @@
 struct Line {
-    x1: u32,
-    y1: u32,
-    x2: u32,
-    y2: u32
+    x1: usize,
+    y1: usize,
+    x2: usize,
+    y2: usize
 }
 
 impl Line {
@@ -40,7 +40,7 @@ impl Line {
     }
 }
 
-pub(crate) fn a(input: &str) -> u32 {
+pub(crate) fn a(input: &str) -> usize {
     let lines: Vec<&str> = input.lines().collect();
     let width = 1_000;
     let height = 1_000;
@@ -86,10 +86,10 @@ pub(crate) fn a(input: &str) -> u32 {
         }
     }
 
-    dangerous_spot_count as u32
+    dangerous_spot_count as usize
 }
 
-pub(crate) fn b(input: &str) -> u32 {
+pub(crate) fn b(input: &str) -> usize {
     let lines: Vec<&str> = input.lines().collect();
     let width = 1_000;
     let height = 1_000;
@@ -135,5 +135,5 @@ pub(crate) fn b(input: &str) -> u32 {
         }
     }
 
-    dangerous_spot_count as u32
+    dangerous_spot_count as usize
 }

@@ -1,5 +1,5 @@
-pub(crate) fn a(input: &str) -> u32 {
-    let lines = input.lines().map(|line| line.parse::<u32>().unwrap()).collect::<Vec<u32>>();
+pub(crate) fn a(input: &str) -> usize {
+    let lines = input.lines().map(|line| line.parse::<usize>().unwrap()).collect::<Vec<usize>>();
 
     let mut increase_counter = 0;
     for index in 1..lines.len() {
@@ -9,8 +9,8 @@ pub(crate) fn a(input: &str) -> u32 {
     }
     return increase_counter;
 }
-pub(crate) fn b(input: &str) -> u32 {
-    let lines = input.lines().map(|line| line.parse::<u32>().unwrap()).collect::<Vec<u32>>();
+pub(crate) fn b(input: &str) -> usize {
+    let lines = input.lines().map(|line| line.parse::<usize>().unwrap()).collect::<Vec<usize>>();
 
     let mut increase_counter = 0;
     for index in 3..lines.len() {
