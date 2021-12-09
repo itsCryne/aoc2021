@@ -56,15 +56,22 @@ fn main() {
 
     let args: Vec<String> = env::args().collect();
     let mut runs = 1;
-    if args.len() > 1 {
+    let mut day_min = 0;
+    if args.len() == 2 {
         runs = args[1].parse().unwrap();
         println!("\n{} runs scheduled", runs);
+    } else if args.len() == 3 {
+        day_min = args[2].parse().unwrap();
+        println!("Starting at day {}", day_min);
     }
 
 
     let mut cum_time: u128 = 0;
 
     for (day, tasks) in day_vec.iter().enumerate() {
+        if day + 1 < day_min {
+            continue;
+        }
         let input = get_puzzle_input((day + 1) as i8);
         let a_result = tasks[0](&input);
         let b_result = tasks[1](&input);
